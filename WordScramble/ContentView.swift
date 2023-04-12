@@ -70,6 +70,14 @@ struct ContentView: View {
         return result.location == NSNotFound
     }
     
+    func isWordNotRootWord(word: String) -> Bool {
+        !word.elementsEqual(rootWord)
+    }
+    
+    func isWordLongEnough(word: String) -> Bool {
+        word.count >= 3
+    }
+ 
     /** Core functions */
     func startGame() {
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
@@ -89,6 +97,31 @@ struct ContentView: View {
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         
         guard answer.count > 0 else { return }
+        
+        guard isOriginal(word: answer) else {
+            wordError(title: "Word used already", message: "Be more original")
+            return
+        }
+
+        guard canWordBeMade(word: answer) else {
+            wordError(title: "Word not possible", message: "You can't spell that word from '\(rootWord)'!")
+            return
+        }
+
+        guard isWordReal(word: answer) else {
+            wordError(title: "Word not recognized", message: "You can't just make them up, you know!")
+            return
+        }
+        
+        guard isWordNotRootWord(word: answer) else {
+            wordError(title: "Word is the same as main word", message: "Come up with your own words")
+            return
+        }
+        
+        guard isWordLongEnough(word: answer) else {
+            wordError(title: "Word is too short", message: "Come up with some stuff longer than 2 letters")
+            return
+        }
         
         withAnimation {
             usedWords.insert(answer, at: 0)
