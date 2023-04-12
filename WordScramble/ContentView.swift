@@ -39,6 +39,7 @@ struct ContentView: View {
         }
     }
     
+    /** Validation functions */
     func isOriginal(word: String) -> Bool {
         !usedWords.contains(word.lowercased().trimmingCharacters(in: .whitespacesAndNewlines))
     }
@@ -64,6 +65,7 @@ struct ContentView: View {
         return result.location == NSNotFound
     }
     
+    /** Core functions */
     func startGame() {
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsURL) {
@@ -88,6 +90,12 @@ struct ContentView: View {
         }
         
         newWord = ""
+    }
+    
+    func wordError(title: String, message: String) {
+        errorMessage = message
+        errorTitle = title
+        showingError = true
     }
 }
 
