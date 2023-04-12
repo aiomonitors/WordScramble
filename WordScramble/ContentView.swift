@@ -25,6 +25,12 @@ struct ContentView: View {
                         .textInputAutocapitalization(.never)
                 }
                 
+                HStack {
+                    Text("Your Score")
+                    Spacer()
+                    Text(calculateScore())
+                }
+                
                 Section("Guesses") {
                     ForEach(usedWords, id: \.self) { word in
                         HStack {
@@ -100,6 +106,10 @@ struct ContentView: View {
         }
         
         fatalError("Could not load start.txt from bundle.")
+    }
+    
+    func calculateScore() -> String {
+        "\(usedWords.reduce(0, { x, y in x + y.count }))"
     }
     
     func addNewWord() {
