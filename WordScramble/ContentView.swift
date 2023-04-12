@@ -36,6 +36,11 @@ struct ContentView: View {
             }
             .navigationTitle(rootWord)
             .onAppear(perform: startGame)
+            .alert(errorTitle, isPresented: $showingError) {
+                Button("Ok", role: .cancel) {}
+            } message: {
+                Text(errorMessage)
+            }
         }
     }
     
