@@ -41,6 +41,13 @@ struct ContentView: View {
             } message: {
                 Text(errorMessage)
             }
+            .toolbar {
+                Spacer()
+                Button("New Word") {
+                    startGame()
+                }
+                .tint(.pink)
+            }
         }
     }
     
@@ -85,6 +92,8 @@ struct ContentView: View {
                 let allWords = startWords.components(separatedBy: "\n")
                 
                 rootWord = allWords.randomElement()?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "silkworm"
+                
+                resetGame()
                 
                 return
             }
@@ -134,6 +143,11 @@ struct ContentView: View {
         errorMessage = message
         errorTitle = title
         showingError = true
+    }
+    
+    func resetGame() {
+        usedWords.removeAll()
+        newWord = ""
     }
 }
 
